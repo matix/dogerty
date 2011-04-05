@@ -18,25 +18,37 @@ package dogerty
         private var p_inboundClientObject:Object;
         
         public function DebugAppConection():void 
-        {
-            p_localConnectionIn = new LocalConnection();
-            p_localConnectionIn.addEventListener(StatusEvent.STATUS, onConnectionInStatus);
-            p_localConnectionIn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onAsyncError);
-            p_localConnectionIn.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
-            
-            p_inboundClientObject = {};
-            p_inboundClientObject.receiveMessageFromApp = this.receiveMessageFromApp;
-            p_localConnectionIn.client = p_inboundClientObject;
-            
-            p_localConnectionIn.allowDomain("*");
-            p_localConnectionIn.connect(CONNECTION_IN_KEY);
-            
-            p_localConnectionOut = new LocalConnection();
-            p_localConnectionOut.allowDomain("*");
-            p_localConnectionOut.addEventListener(StatusEvent.STATUS, onConnectionInStatus);
-            p_localConnectionOut.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onAsyncError);
-            p_localConnectionOut.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
-        }
+        {	
+			try
+			{
+	            p_localConnectionIn = new LocalConnection();
+	            p_localConnectionIn.addEventListener(StatusEvent.STATUS, onConnectionInStatus);
+	            p_localConnectionIn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onAsyncError);
+	            p_localConnectionIn.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+	            
+	            p_inboundClientObject = {};
+	            p_inboundClientObject.receiveMessageFromApp = this.receiveMessageFromApp;
+	            p_localConnectionIn.client = p_inboundClientObject;
+	            
+	            p_localConnectionIn.allowDomain("*");
+	            p_localConnectionIn.connect(CONNECTION_IN_KEY);
+	            
+	            p_localConnectionOut = new LocalConnection();
+	            p_localConnectionOut.allowDomain("*");
+	            p_localConnectionOut.addEventListener(StatusEvent.STATUS, onConnectionInStatus);
+	            p_localConnectionOut.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onAsyncError);
+	            p_localConnectionOut.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+        	}
+			catch(e:ArgumentError)
+			{
+				
+			}
+			finally 
+			{
+				if(p_localConnectionIn)
+					p_localConnectionIn.close()
+			}
+		}
         
         private function onConnectionInStatus(event:StatusEvent):void
         {

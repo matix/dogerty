@@ -2,16 +2,34 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
                        xmlns:s="library://ns.adobe.com/flex/spark" 
                        xmlns:mx="library://ns.adobe.com/flex/mx" 
-                       creationComplete="onCreationComplete(event)">
-    <s:statusBar>
-        <s:RichText text="Dogerty Debug App - v1.0 alpha"/>
-    </s:statusBar>
+					   skinClass="dogerty.app.skins.ApplicationChromeSkin"
+					   status="Disconnected"
+                       creationComplete="onCreationComplete(event)" width="800" height="600">
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
+	<fx:Style source="DogertyDebugApp.css"/>
     <fx:Script source="DogertyDebugAppScript.as"/>
-    <s:VGroup width="100%" height="100%" paddingTop="5">
-        <s:RichText text="Dogerty Flash Debugger" fontSize="15"/>
-        <s:TextArea id="log" width="100%" height="100%"/>
-    </s:VGroup>
+	<s:Group id="content" top="5" left="5" right="5" bottom="5">
+	    <s:VGroup width="100%" height="100%" paddingTop="5">
+			<s:HGroup width="100%" verticalAlign="middle" paddingLeft="5" mouseDown="this.nativeApplication.activeWindow.startMove()">
+				<s:Ellipse width="10" height="10">
+					<s:fill>
+						<s:SolidColor color="#11ff66"/>
+					</s:fill>
+					<s:filters>
+						<s:DropShadowFilter distance="0" alpha=".5"/>
+						<s:BevelFilter blurX="10" blurY="10" distance="1" shadowAlpha=".5"/>
+					</s:filters>
+				</s:Ellipse>
+		        <s:RichText fontSize="18" width="100%">
+					<s:content><s:span fontWeight="bold">Dogerty</s:span> Flash Debugger</s:content>
+				</s:RichText>
+				<s:Button width="20" click="this.nativeWindow.minimize()"/>
+				<s:Button width="20" click="if(this.nativeWindow.displayState == NativeWindowDisplayState.MAXIMIZED) this.restore() else this.nativeWindow.maximize()"/>
+				<s:Button width="20" click="this.close()"/>
+			</s:HGroup>
+	        <s:TextArea id="log" width="100%" height="100%"/>
+	    </s:VGroup>
+	</s:Group>
 </s:WindowedApplication>
