@@ -23,9 +23,31 @@ global
 	chrome-color: #222222;
 	content-background-color: #222222;
 	font-family: DefaultFont;
+	focus-color: #FF8C00;
+	accent-color: #FF8C00;
+	item-selection-color: #FF8C00;
+	item-roll-over-color: #FF8C00;
 }
 
 s|WindowedApplication
 {
 	background-color: #222222;
+}
+
+s|Panel
+{
+	background-color: #222222;
+	drop-shadow-visible: false;
+}
+
+mx|Tree
+{
+	font-family: "Verdana";
+}
+
+mx|Alert
+{
+	font-family: "Verdana";
+	background-color: #222222;
+	content-background-color: #222222;
 }
