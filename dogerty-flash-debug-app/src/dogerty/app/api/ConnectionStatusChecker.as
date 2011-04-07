@@ -1,6 +1,7 @@
 package dogerty.app.api
 {
 	import dogerty.LocalTunnel;
+	import dogerty.MessageTypeEnum;
 	import dogerty.TunnelEvent;
 	
 	import flash.events.Event;
@@ -19,7 +20,7 @@ package dogerty.app.api
 			this.p_conn = conn;
 			p_conn.addEventListener(TunnelEvent.MESSAGE_RECEIVED, onMessageReceived);
 			
-			p_timer = new Timer(5000);
+			p_timer = new Timer(2000);
 			p_timer.addEventListener(TimerEvent.TIMER, timeout);
 		}
 		

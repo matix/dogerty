@@ -23,18 +23,7 @@
 			</s:HGroup>
 			<s:HGroup width="100%" height="100%">
 				<s:Panel title="Display Tree" width="100%" height="100%">
-					<mx:Tree width="100%" height="100%" labelField="@title" contentBackgroundColor="#dddddd" contentBackgroundAlpha=".3">
-						<mx:dataProvider>
-							<fx:XML xmlns="">
-								<root title="hola">
-									<child title="hola"/>
-									<child title="hola">
-										<child title="hola"/>
-									</child>
-								</root>
-							</fx:XML>
-						</mx:dataProvider>
-					</mx:Tree>
+					<components:DisplayTree id="displayTree" width="100%" height="100%" itemRollOver="onItemRollOver(event)"/>
 				</s:Panel>
 				<s:Panel title="Properties" width="300" height="100%"/>
 			</s:HGroup>

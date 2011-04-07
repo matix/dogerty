@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="dogerty.app.components.*">
+	<fx:Script>
+		<![CDATA[
+			public function set dataProvider(value:Object):void
+			{
+				tree.dataProvider = value;
+			}
+		]]>
+	</fx:Script>
+	<fx:Metadata>
+		[Event(name="itemRollOver", type="mx.events.ListEvent")]
+	</fx:Metadata>
+	<mx:Tree id="tree" 
+			 	itemRollOver="dispatchEvent(event)"
+				width="100%" 
+				height="100%" 
+				labelField="@name" 
+				contentBackgroundColor="#dddddd" 
+				contentBackgroundAlpha=".3"
+				itemRenderer="dogerty.app.components.DisplayTreeItemRenderer">
+	</mx:Tree>
+</s:Group>

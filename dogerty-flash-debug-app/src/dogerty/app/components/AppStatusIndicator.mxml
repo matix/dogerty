@@ -3,22 +3,28 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 width="12" height="12">
+	<fx:Declarations>
+		<s:Fade id="anim" alphaFrom="0" alphaTo="1" repeatCount="0" repeatBehavior="reverse" target="{fill}"/>
+	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
 			public function set status(value:uint):void
 			{
 				if(value > 0)
 				{
+					anim.end();
+					fill.alpha = 1;
 					colorFill.color = 0x11ff66;
 				}
 				else
 				{
+					anim.play();
 					colorFill.color = 0xFF8C00;
 				}
 			}
 		]]>
 	</fx:Script>
-	<s:Ellipse width="100%" height="100%">
+	<s:Ellipse id="fill" width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor id="colorFill"/>
 		</s:fill>
