@@ -2,15 +2,21 @@ package dogerty
 {
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
+    import flash.display.Sprite;
     import flash.display.Stage;
     import flash.events.Event;
     import flash.events.EventDispatcher;
-    import flash.system.ApplicationDomain;
-    import flash.utils.ByteArray;
+    import flash.geom.Point;
+    
+    import mx.core.IVisualElement;
+    import mx.core.UIComponent;
+    
+    import spark.components.SkinnableContainer;
     
     public class Debug extends EventDispatcher
     {
-        protected var p_rootApplication:DisplayObject;        
+        protected var p_rootApplication:DisplayObjectContainer;        
+        protected var p_highlightLayer:Sprite;        
         protected var p_appConnection:LocalTunnel;
 		
         protected var p_isConnected:Boolean;
@@ -44,17 +50,30 @@ package dogerty
         * Shortcut for Debug.action.init()
         * 
         */
-        public static function init(root:DisplayObjectContainer = null):void 
+        public static function init(root:DisplayObject):void 
         {
-            Debug.action.init(root);
+            action.init(root);
+			action.updateDisplayTree();
         }
 		
         /**
         * Initializer. Sets up the debugging enviroment.
         * Optionally might pass the Display Hierarchry root, if not passed, it will try to infere.
         */ 
-        public function init(root:DisplayObjectContainer = null):void
+        public function init(root:DisplayObject):void
         {
+			p_rootApplication = root as DisplayObjectContainer;
+
+			p_highlightLayer = new Sprite();
+			p_highlightLayer.graphics.beginFill(0x00ffff,.5);
+			p_highlightLayer.graphics.drawRect(0,0,10,10);
+			p_highlightLayer.graphics.endFill();
+			p_highlightLayer.mouseEnabled = false;
+			p_highlightLayer.mouseChildren = false;			
+			
+			p_rootApplication.addChild(p_highlightLayer);
+			p_rootApplication.addEventListener(Event.ADDED, onDisplayListUpdated);
+			
 			// init app connection
 			p_appConnection = new LocalTunnel("dogerty");
 			p_appConnection.addEventListener(TunnelEvent.MESSAGE_RECEIVED, onMessageReceived);
@@ -64,6 +83,12 @@ package dogerty
 			ping();
         }
 		
+		protected function onDisplayListUpdated(event:Event):void
+		{
+			p_rootApplication.setChildIndex(p_highlightLayer, p_rootApplication.numChildren-1);				
+			updateDisplayTree();
+		}
+		
 		protected function onMessageReceived(event:TunnelEvent):void
 		{
 			if(event.messageType == MessageTypeEnum.SYNC)
@@ -71,11 +96,52 @@ package dogerty
 				p_isConnected = true;
 				ping();
 			}
+			else if(event.messageType == MessageTypeEnum.DISPLAY_TREE_UPDATE)
+			{
+				updateDisplayTree();
+			}
+			else if(event.messageType == MessageTypeEnum.HIGHLIGHT_ITEM)
+			{
+				highLightItem(event.messageContent as Array);
+			}
 		}
 		
 		private function ping():void
 		{
-			p_appConnection.sendMessage(MessageTypeEnum.SYNC,"");
+			p_appConnection.sendMessage(MessageTypeEnum.SYNC,null);
+		}
+		
+		private function updateDisplayTree():void
+		{
+			var display:Object = DisplayListParser.parse(p_rootApplication);
+			p_appConnection.sendMessage(MessageTypeEnum.DISPLAY_TREE_UPDATE,display);
+		}
+		
+		private function highLightItem(path:Array):void
+		{
+			var item:DisplayObject = p_rootApplication;
+			for (var i:uint = 1; i < path.length; i++)
+			{
+				if(item is DisplayObjectContainer){
+					item = DisplayObjectContainer(item).getChildByName(path[i]);
+				}
+				else {
+					if(i < path.length -1)
+					{
+						item = null
+						break;
+					}
+				}
+			}
+			
+			if(item){
+				var global:Point = item.parent.localToGlobal(new Point(item.x,item.y));
+				var app_local:Point = p_rootApplication.globalToLocal(global);
+				p_highlightLayer.x = app_local.x
+				p_highlightLayer.y = app_local.y
+				p_highlightLayer.width = item.width
+				p_highlightLayer.height = item.height
+			}
 		}
 		
 		public function log(object:Object):void

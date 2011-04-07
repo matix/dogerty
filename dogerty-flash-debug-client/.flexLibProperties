@@ -3,6 +3,8 @@
   <includeClasses>
     <classEntry path="dogerty.Debug"/>
     <classEntry path="dogerty.MessageTypeEnum"/>
+    <classEntry path="dogerty.ObjectTypeEnum"/>
+    <classEntry path="dogerty.DisplayListParser"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
