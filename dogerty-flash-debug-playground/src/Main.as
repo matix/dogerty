@@ -1,7 +1,6 @@
 package
 {
     import dogerty.Debug;
-    import dogerty.TunnelEvent;
     
     import flash.display.Sprite;
     import flash.events.Event;
