@@ -4,22 +4,35 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="dogerty.app.components.*">
 	<fx:Script>
 		<![CDATA[
+			import mx.events.PropertyChangeEvent;
 			public function set dataProvider(value:Object):void
 			{
+				var openItems:Object = tree.openItems;
 				tree.dataProvider = value;
+				tree.openItems = openItems;
+				tree.validateNow();
+			}
+			
+			public function onHighlightCheck(event:Event):void
+			{
+				dispatchEvent(new PropertyChangeEvent("highlightCheckChanged",false,false,null,"highLightChecked",null,highlight.selected,this));
 			}
 		]]>
 	</fx:Script>
 	<fx:Metadata>
 		[Event(name="itemRollOver", type="mx.events.ListEvent")]
+		[Event(name="highlightCheckChanged", type="mx.events.PropertyChangeEvent")]
 	</fx:Metadata>
-	<mx:Tree id="tree" 
-			 	itemRollOver="dispatchEvent(event)"
-				width="100%" 
-				height="100%" 
-				labelField="@name" 
-				contentBackgroundColor="#dddddd" 
-				contentBackgroundAlpha=".3"
-				itemRenderer="dogerty.app.components.DisplayTreeItemRenderer">
-	</mx:Tree>
+	<s:VGroup width="100%" height="100%">
+		<s:CheckBox id="highlight" label="Highlight on Roll Over" change="onHighlightCheck(event)"/>
+		<components:CustomTree id="tree" 
+				 	itemRollOver="dispatchEvent(event)"
+					width="100%" 
+					height="100%" 
+					labelField="@name" 
+					contentBackgroundColor="#dddddd" 
+					contentBackgroundAlpha=".3"
+					itemRenderer="dogerty.app.components.DisplayTreeItemRenderer">
+		</components:CustomTree>
+	</s:VGroup>
 </s:Group>

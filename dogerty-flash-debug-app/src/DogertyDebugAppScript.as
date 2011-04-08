@@ -5,6 +5,7 @@ import dogerty.TunnelEvent;
 import dogerty.app.api.ConnectionStatusChecker;
 import dogerty.app.api.Utils;
 
+import flash.events.MouseEvent;
 import flash.net.sendToURL;
 
 import mx.controls.Alert;
@@ -38,6 +39,17 @@ private function onCreationComplete(event:FlexEvent):void
 	p_clientConnection.sendMessage(MessageTypeEnum.DISPLAY_TREE_UPDATE,"");
 }
 
+private var p_highlighting:Boolean = false;
+
+private function toggleHightLightingMode(enable:Boolean):void
+{
+	p_highlighting = enable;
+	if(!enable)
+	{
+		p_clientConnection.sendMessage(MessageTypeEnum.HIGHLIGHT_ITEM, null);
+	}
+}
+
 private function onConnectionPing(event:Event):void 
 {
 	p_connectionStatus = 1;
@@ -67,7 +79,10 @@ private function onMessageReceived(event:TunnelEvent):void
 
 private function onItemRollOver(event:ListEvent):void 
 {
-	p_clientConnection.sendMessage(MessageTypeEnum.HIGHLIGHT_ITEM, Utils.getItemPath(event.itemRenderer.data));
+	if(p_highlighting){
+		var path:Array = event.itemRenderer.data.@path.toString().split(".");
+		p_clientConnection.sendMessage(MessageTypeEnum.HIGHLIGHT_ITEM, path);
+	}
 }
 
 public function consoleLog(object:Object):void

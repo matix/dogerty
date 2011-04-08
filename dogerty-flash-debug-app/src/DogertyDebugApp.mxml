@@ -23,7 +23,11 @@
 			</s:HGroup>
 			<s:HGroup width="100%" height="100%">
 				<s:Panel title="Display Tree" width="100%" height="100%">
-					<components:DisplayTree id="displayTree" width="100%" height="100%" itemRollOver="onItemRollOver(event)"/>
+					<components:DisplayTree id="displayTree" 
+											width="100%" 
+											height="100%" 
+											itemRollOver="onItemRollOver(event)" 
+											highlightCheckChanged="toggleHightLightingMode(event.newValue)"/>
 				</s:Panel>
 				<s:Panel title="Properties" width="300" height="100%"/>
 			</s:HGroup>
