@@ -13,4 +13,9 @@
 			}
 		]]>
 	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<s:RichText fontSize="16" text="Dogerty Flash Debugger Flex Playground"/>
+		<s:Panel width="100%" height="100%">
+		</s:Panel>
+	</s:VGroup>
 </s:Application>
