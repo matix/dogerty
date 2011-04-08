@@ -124,7 +124,7 @@ package dogerty
 		
 		private function updateDisplayTree():void
 		{
-			var display:Object = DisplayListParser.parse(p_rootApplication);
+			var display:Object = Parser.parseDisplayList(p_rootApplication);
 			p_appConnection.sendMessage(MessageTypeEnum.DISPLAY_TREE_UPDATE,display);
 		}
 		

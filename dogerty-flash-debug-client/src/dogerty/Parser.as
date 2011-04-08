@@ -4,11 +4,11 @@ package dogerty
 	import flash.display.DisplayObjectContainer;
 	import flash.utils.getQualifiedClassName;
 
-	public class DisplayListParser
+	public class Parser
 	{
 		private static const MAX_INSPECTION_LEVEL:uint = 5;
 		
-		public static function parse(root:DisplayObject, ...args):XML
+		public static function parseDisplayList(root:DisplayObject, ...args):XML
 		{
 			if(!root) return null;
 			
@@ -26,7 +26,7 @@ package dogerty
 				for (var i:uint = 0; i< container.numChildren; i++)
 				{
 					var child:DisplayObject = container.getChildAt(i);
-					object[child.name] = parse(child, path);
+					object[child.name] = parseDisplayList(child, path);
 				}
 			}
 			

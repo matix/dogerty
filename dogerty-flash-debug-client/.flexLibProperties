@@ -4,7 +4,7 @@
     <classEntry path="dogerty.Debug"/>
     <classEntry path="dogerty.MessageTypeEnum"/>
     <classEntry path="dogerty.ObjectTypeEnum"/>
-    <classEntry path="dogerty.DisplayListParser"/>
+    <classEntry path="dogerty.Parser"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
