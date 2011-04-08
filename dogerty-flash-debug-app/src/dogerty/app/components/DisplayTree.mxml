@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="dogerty.app.components.*">
+<components:CustomPanel title="Display Tree" width="100%" height="100%"
+						 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						 xmlns:s="library://ns.adobe.com/flex/spark" 
+						 xmlns:mx="library://ns.adobe.com/flex/mx" 
+						 xmlns:components="dogerty.app.components.*">
 	<fx:Script>
 		<![CDATA[
 			import mx.events.PropertyChangeEvent;
@@ -23,16 +25,17 @@
 		[Event(name="itemRollOver", type="mx.events.ListEvent")]
 		[Event(name="highlightCheckChanged", type="mx.events.PropertyChangeEvent")]
 	</fx:Metadata>
-	<s:VGroup width="100%" height="100%">
-		<s:CheckBox id="highlight" label="Highlight on Roll Over" change="onHighlightCheck(event)"/>
-		<components:CustomTree id="tree" 
-				 	itemRollOver="dispatchEvent(event)"
-					width="100%" 
-					height="100%" 
-					labelField="@name" 
-					contentBackgroundColor="#dddddd" 
-					contentBackgroundAlpha=".3"
-					itemRenderer="dogerty.app.components.DisplayTreeItemRenderer">
-		</components:CustomTree>
-	</s:VGroup>
-</s:Group>
+	<components:titleControls>
+		<s:CheckBox id="highlight" label="Highlight on Roll Over" change="onHighlightCheck(event)"/>		
+	</components:titleControls>
+	<components:CustomTree id="tree" 
+			 	itemRollOver="dispatchEvent(event)"
+				width="100%" 
+				height="100%" 
+				labelField="@name" 
+				contentBackgroundColor="#dddddd" 
+				contentBackgroundAlpha=".3"
+				borderAlpha="0"
+				itemRenderer="dogerty.app.components.DisplayTreeItemRenderer">
+	</components:CustomTree>
+</components:CustomPanel>

@@ -22,18 +22,21 @@
 				<components:IconButton width="20" click="this.close()" chromeColor="#ff0011" icon="@Embed('./assets/close.png')"/>
 			</s:HGroup>
 			<s:HGroup width="100%" height="100%">
-				<s:Panel title="Display Tree" width="100%" height="100%">
-					<components:DisplayTree id="displayTree" 
-											width="100%" 
-											height="100%" 
-											itemRollOver="onItemRollOver(event)" 
-											highlightCheckChanged="toggleHightLightingMode(event.newValue)"/>
-				</s:Panel>
+				<components:DisplayTree id="displayTree" 
+										width="100%" 
+										height="100%" 
+										itemRollOver="onItemRollOver(event)" 
+										highlightCheckChanged="toggleHightLightingMode(event.newValue)"/>
 				<s:Panel title="Properties" width="300" height="100%"/>
 			</s:HGroup>
-			<s:Panel title="Console" width="100%" height="100">
-		        <s:TextArea id="log" width="100%" height="100%"/>
-			</s:Panel>
+			<s:HGroup width="100%" height="100">				
+				<s:Panel title="Console" width="100%" height="100%">
+			        <s:TextArea id="log" width="100%" height="100%"/>
+				</s:Panel>
+				<s:Panel title="Performance" width="300" height="100%">
+					<s:RichText id="fps" verticalCenter="0" horizontalCenter="0" fontSize="20" text="30fps"/>
+				</s:Panel>
+			</s:HGroup>
 	    </s:VGroup>
 	</s:Group>
 </s:WindowedApplication>
