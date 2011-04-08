@@ -21,7 +21,7 @@ package
 			tf = new TextField();
 			tf.width = stage.stageWidth;
 			tf.width = stage.stageHeight;
-			tf.text = "ALALALALALALALALALLALALA"
+			tf.text = "Dogerty Flash Debug Playground"
 			addChild(tf);
 			
 			
