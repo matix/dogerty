@@ -7,6 +7,7 @@ package dogerty
     import flash.events.Event;
     import flash.events.EventDispatcher;
     import flash.geom.Point;
+    import flash.geom.Rectangle;
     
     import mx.core.IVisualElement;
     import mx.core.UIComponent;
@@ -50,9 +51,9 @@ package dogerty
         * Shortcut for Debug.action.init()
         * 
         */
-        public static function init(root:DisplayObject):void 
+        public static function init(dobj:DisplayObject):void 
         {
-            action.init(root);
+            action.init(dobj);
 			action.updateDisplayTree();
         }
 		
@@ -60,19 +61,24 @@ package dogerty
         * Initializer. Sets up the debugging enviroment.
         * Optionally might pass the Display Hierarchry root, if not passed, it will try to infere.
         */ 
-        public function init(root:DisplayObject):void
+        public function init(dobj:DisplayObject):void
         {
-			p_rootApplication = root as DisplayObjectContainer;
+			setAppRoot(dobj);
 
 			p_highlightLayer = new Sprite();
+			p_highlightLayer.name = "dogertyHighlightSpite7102";
+			p_highlightLayer.visible = false;
+			//p_highlightLayer.graphics.lineStyle(1,0x0000ff,1);
 			p_highlightLayer.graphics.beginFill(0x00ffff,.5);
 			p_highlightLayer.graphics.drawRect(0,0,10,10);
 			p_highlightLayer.graphics.endFill();
+			//p_highlightLayer.scale9Grid = new Rectangle(2,2,6,6);
 			p_highlightLayer.mouseEnabled = false;
 			p_highlightLayer.mouseChildren = false;			
 			
 			p_rootApplication.addChild(p_highlightLayer);
 			p_rootApplication.addEventListener(Event.ADDED, onDisplayListUpdated);
+			p_rootApplication.addEventListener(Event.REMOVED, onDisplayListUpdated);
 			
 			// init app connection
 			p_appConnection = new LocalTunnel("dogerty");
@@ -82,6 +88,11 @@ package dogerty
 			// send application a ping
 			ping();
         }
+		
+		private function setAppRoot(dobj:DisplayObject):void 
+		{
+			p_rootApplication = dobj.root as DisplayObjectContainer;
+		}
 		
 		protected function onDisplayListUpdated(event:Event):void
 		{
@@ -119,6 +130,14 @@ package dogerty
 		
 		private function highLightItem(path:Array):void
 		{
+			if(path){
+				p_highlightLayer.visible = true;
+			}
+			else {
+				p_highlightLayer.visible = false;
+				return;
+			}
+			
 			var item:DisplayObject = p_rootApplication;
 			for (var i:uint = 1; i < path.length; i++)
 			{
@@ -141,6 +160,10 @@ package dogerty
 				p_highlightLayer.y = app_local.y
 				p_highlightLayer.width = item.width
 				p_highlightLayer.height = item.height
+			}
+			else
+			{
+				p_highlightLayer.visible = false;
 			}
 		}
 		
