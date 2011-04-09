@@ -51,3 +51,10 @@ mx|Alert
 	background-color: #222222;
 	content-background-color: #222222;
 }
+
+mx|DataGrid
+{
+	font-family: "Verdana";
+	alternating-item-colors: #222222, #242424;
+	border-color: #222222;
+}

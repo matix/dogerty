@@ -2,6 +2,7 @@ package dogerty
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.utils.describeType;
 	import flash.utils.getQualifiedClassName;
 
 	public class Parser
@@ -33,6 +34,19 @@ package dogerty
 			return object;
 		}
 		
-		
+		public static function parseObjectProperties(obj:Object):Array
+		{
+			if(!obj) return null;
+			
+			var typeProps:XMLList = describeType(obj).accessor.(@access!='writeonly');
+			var desc:Array = [];
+			
+			for each (var name:String in typeProps.@name)
+			{
+				desc.push({name:name, value:obj[name]})
+			}
+			
+			return desc;
+		}
 	}
 }

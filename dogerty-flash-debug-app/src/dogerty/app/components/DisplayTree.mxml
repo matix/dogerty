@@ -6,7 +6,16 @@
 						 xmlns:components="dogerty.app.components.*">
 	<fx:Script>
 		<![CDATA[
+			import mx.events.ListEvent;
 			import mx.events.PropertyChangeEvent;
+			
+			protected var p_selectedItem:Object;
+			
+			public function get selectedItem():Object
+			{
+				return p_selectedItem;
+			}
+			
 			public function set dataProvider(value:Object):void
 			{
 				var openItems:Object = tree.openItems;
@@ -19,17 +28,26 @@
 			{
 				dispatchEvent(new PropertyChangeEvent("highlightCheckChanged",false,false,null,"highLightChecked",null,highlight.selected,this));
 			}
+
+			protected function onItemClick(event:ListEvent):void
+			{
+				p_selectedItem = event.itemRenderer.data;
+				dispatchEvent(new Event("selectedItemChanged"));
+			}
+
 		]]>
 	</fx:Script>
 	<fx:Metadata>
 		[Event(name="itemRollOver", type="mx.events.ListEvent")]
 		[Event(name="highlightCheckChanged", type="mx.events.PropertyChangeEvent")]
+		[Event(name="selectedItemChanged", type="flash.events.Event")]
 	</fx:Metadata>
 	<components:titleControls>
 		<s:CheckBox id="highlight" label="Highlight on Roll Over" change="onHighlightCheck(event)"/>		
 	</components:titleControls>
 	<components:CustomTree id="tree" 
 			 	itemRollOver="dispatchEvent(event)"
+				itemClick="onItemClick(event)"
 				width="100%" 
 				height="100%" 
 				labelField="@name" 

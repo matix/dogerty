@@ -8,6 +8,7 @@ package dogerty
     import flash.events.EventDispatcher;
     import flash.geom.Point;
     import flash.geom.Rectangle;
+    import flash.net.sendToURL;
     
     import mx.core.IVisualElement;
     import mx.core.UIComponent;
@@ -115,6 +116,11 @@ package dogerty
 			{
 				highLightItem(event.messageContent as Array);
 			}
+			else if(event.messageType == MessageTypeEnum.ITEM_DESCRIPTION)
+			{
+				var desc:Array = describeItem(event.messageContent as Array);
+				p_appConnection.sendMessage(MessageTypeEnum.ITEM_DESCRIPTION_RESPONSE, desc);
+			}
 		}
 		
 		private function ping():void
@@ -138,6 +144,30 @@ package dogerty
 				return;
 			}
 			
+			var item:DisplayObject = getItemByPath(path);
+			
+			if(item){
+				var global:Point = item.parent.localToGlobal(new Point(item.x,item.y));
+				var app_local:Point = p_rootApplication.globalToLocal(global);
+				p_highlightLayer.x = app_local.x
+				p_highlightLayer.y = app_local.y
+				p_highlightLayer.width = item.width
+				p_highlightLayer.height = item.height
+			}
+			else
+			{
+				p_highlightLayer.visible = false;
+			}
+		}
+		
+		private function describeItem(path:Array):Array
+		{
+			var item:DisplayObject = getItemByPath(path);
+			return Parser.parseObjectProperties(item);
+		}
+		
+		private function getItemByPath(path:Array):DisplayObject 
+		{
 			var item:DisplayObject = p_rootApplication;
 			for (var i:uint = 1; i < path.length; i++)
 			{
@@ -153,18 +183,7 @@ package dogerty
 				}
 			}
 			
-			if(item){
-				var global:Point = item.parent.localToGlobal(new Point(item.x,item.y));
-				var app_local:Point = p_rootApplication.globalToLocal(global);
-				p_highlightLayer.x = app_local.x
-				p_highlightLayer.y = app_local.y
-				p_highlightLayer.width = item.width
-				p_highlightLayer.height = item.height
-			}
-			else
-			{
-				p_highlightLayer.visible = false;
-			}
+			return item;
 		}
 		
 		public function log(object:Object):void

@@ -25,9 +25,10 @@
 				<components:DisplayTree id="displayTree" 
 										width="100%" 
 										height="100%" 
-										itemRollOver="onItemRollOver(event)" 
-										highlightCheckChanged="toggleHightLightingMode(event.newValue)"/>
-				<s:Panel title="Properties" width="300" height="100%"/>
+										itemRollOver="onTreeItemRollOver(event)" 
+										highlightCheckChanged="toggleHightLightingMode(event.newValue)"
+										selectedItemChanged="onTreeSelectedItemChanged(event)"/>
+				<components:PropertiesPanel id="propertiesPanel"  width="300" height="100%"/>
 			</s:HGroup>
 			<s:HGroup width="100%" height="100">				
 				<s:Panel title="Console" width="100%" height="100%">

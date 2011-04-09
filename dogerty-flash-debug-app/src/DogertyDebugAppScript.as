@@ -1,14 +1,8 @@
-import dogerty.Debug;
 import dogerty.LocalTunnel;
 import dogerty.MessageTypeEnum;
 import dogerty.TunnelEvent;
 import dogerty.app.api.ConnectionStatusChecker;
-import dogerty.app.api.Utils;
 
-import flash.events.MouseEvent;
-import flash.net.sendToURL;
-
-import mx.controls.Alert;
 import mx.core.FlexGlobals;
 import mx.events.FlexEvent;
 import mx.events.ListEvent;
@@ -75,14 +69,29 @@ private function onMessageReceived(event:TunnelEvent):void
 	{
 		displayTree.dataProvider = event.messageContent;
 	}
+	else if (event.messageType == MessageTypeEnum.ITEM_DESCRIPTION_RESPONSE)
+	{
+		setPropertiesPanel(event.messageContent);
+	}
 }
 
-private function onItemRollOver(event:ListEvent):void 
+private function onTreeItemRollOver(event:ListEvent):void 
 {
 	if(p_highlighting){
 		var path:Array = event.itemRenderer.data.@path.toString().split(".");
 		p_clientConnection.sendMessage(MessageTypeEnum.HIGHLIGHT_ITEM, path);
 	}
+}
+
+private function onTreeSelectedItemChanged(event:Event):void 
+{
+	var path:Array = displayTree.selectedItem.@path.toString().split(".");
+	p_clientConnection.sendMessage(MessageTypeEnum.ITEM_DESCRIPTION, path);
+}
+
+private function setPropertiesPanel(itemDescription:Object):void
+{
+	propertiesPanel.dataProvider = itemDescription;
 }
 
 public function consoleLog(object:Object):void
